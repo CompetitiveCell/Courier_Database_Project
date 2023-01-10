@@ -1,2 +1,5 @@
 # Courier_Database_Project
-This is just a school project
+#PLEASE READ THE README FILE IN THE REPOSITORY.
+#IT'S IMPORTANT
+
+This is just a private school project
