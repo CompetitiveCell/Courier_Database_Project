@@ -1,8 +1,6 @@
 # Courier_Database_Project
 ## PLEASE READ THE README FILE IN THE REPOSITORY.
 
-This is just a private school project
-
 ### For the customer side, please use the program in order:
 
 * First place your order
