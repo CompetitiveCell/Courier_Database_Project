@@ -4,6 +4,7 @@ global connect
 connect = create_connection()
 create_tables(connect)
 #add_courier_boys_data(connect)
+insert_prices(connect)
 
 order_id = ''
 for i in range(2):
@@ -40,9 +41,10 @@ if user_choice == 1:
                     print("(2) Get Details of my package")
                     print("(3) View all my packages")
                     print("(4) Update my package information")
-                    print("(5) Cancel my package")
-                    print("(6) Settings")
-                    print("(7) Exit the Program")
+                    print("(5) Display the prices of the courier")
+                    print("(6) Cancel my package")
+                    print("(7) Settings")
+                    print("(8) Exit the Program")
                     choose = int(input("Press from (1,2,3,4,5,6,7) to continue : "))
                     if choose == 1:
                         global package
@@ -67,14 +69,36 @@ if user_choice == 1:
                         package.append(status)
                         package.append(delivery_boy_id)
                         package = tuple(package)
+                        weight = float(weight)
                         customer_add_package(connect, package)
+                        for i in range(1):
+                            if weight < 10.0:
+                                cursor.execute("SELECT price FROM prices WHERE weight LIKE '1%'")
+                                price = cursor.fetchone()                                
+                            elif weight > 10.0 and weight < 20.0:
+                                cursor.execute("SELECT price FROM prices WHERE weight LIKE '2%'")
+                                price = cursor.fetchone()                                
+                            elif weight > 20.0 and weight < 30.0:
+                                cursor.execute("SELECT price FROM prices WHERE weight LIKE '3%'")
+                                price = cursor.fetchone()                                
+                            elif weight > 30.0 and weight < 40.0:
+                                cursor.execute("SELECT price FROM prices WHERE weight LIKE '4%'")
+                                price = cursor.fetchone()                                
+                            elif weight > 40.0 and weight < 50.0:
+                                cursor.execute("SELECT price FROM prices WHERE weight LIKE '5%'")
+                                price = cursor.fetchone()
+                            else:
+                                cursor.execute("SELECT price FROM prices WHERE weight LIKE '6%'")
+                                price = cursor.fetchone()
+                            for i in price:
+                                print(str(i),"is your amount to pay")
                     elif choose == 2:
                         package_id = input("Enter your package id which was provided : ")
                         print("This is your order details")
                         print(customer_get_package(connect, package_id))
                     elif choose == 3:
                         print("Here are all of your packages")
-                        print(customer_get_all_package)
+                        customer_get_all_package(connect, username)
                     elif choose == 4:
                         package_id = input("Enter the Package Id of the order of which details need to be changed : ")
                         package = list(customer_get_package(connect, package_id))
@@ -107,11 +131,13 @@ if user_choice == 1:
                         else:
                             break
                     elif choose == 5:
+                        show_prices(connect)
+                    elif choose == 6:
                         package_id = input("Enter the Package Id of the order of which details need to be changed : ")
                         customer_delete_package(connect, package_id)
                         print('\n')
                         print("Your package delivery has been cancelled")
-                    elif choose == 6:
+                    elif choose == 7:
                         print("You need Log-In everytime whenever you use the settings.\nThis is order to ensure the security of the data of our customers")
                         customer = login(connect)
                         id = customer[0]
@@ -150,7 +176,7 @@ if user_choice == 1:
                                 print("Your account was not deleted")
                         else:
                             break
-                    elif choose == 7:
+                    elif choose == 8:
                         print("Thank you for using our service")
                         break
                     else:
@@ -172,11 +198,13 @@ if user_choice == 1:
                 print("(2) Get Details of my package")
                 print("(3) View all my packages")
                 print("(4) Update my package information")
-                print("(5) Cancel my package")
-                print("(6) Settings")
-                print("(7) Exit the Program")
+                print("(5) Display the prices of the courier")
+                print("(6) Cancel my package")
+                print("(7) Settings")
+                print("(8) Exit the Program")
                 choose = int(input("Press from (1,2,3,4,5,6) to continue : "))
                 if choose == 1:
+                    cursor = connect.cursor()
                     package = []
                     sender = username
                     receipient = input("Please enter who you want to send : ")
@@ -186,7 +214,9 @@ if user_choice == 1:
                     status = "NOT DELIVERED YET"
                     delivery_boy_id = "YOUR PACKAGE IS SEARCHING THE BEST DELIVERY BOY FOR HIM"
                     print('\n')
+                    print('__________________________________________________________________')
                     print(order_id, "is your Package_ID to access your details of the package")
+                    print('__________________________________________________________________')
                     print("Please remember if for future purposes")
                     package.append(order_id)
                     package.append(sender)
@@ -196,16 +226,40 @@ if user_choice == 1:
                     package.append(date)
                     package.append(status)
                     package.append(delivery_boy_id)
+                    weight = float(weight)
                     package = tuple(package)
                     print(package)
                     customer_add_package(connect, package)
+                    for i in range(1):
+                        if weight < 10:
+                            cursor.execute("SELECT price FROM prices WHERE weight LIKE '1%'")
+                            price = cursor.fetchone()
+                        elif weight > 10 and weight < 20:
+                            cursor.execute("SELECT price FROM prices WHERE weight LIKE '2%'")
+                            price = cursor.fetchone()
+                        elif weight > 20 and weight < 30:
+                            cursor.execute("SELECT price FROM prices WHERE weight LIKE '3%'")
+                            price = cursor.fetchone()
+                        elif weight > 30 and weight < 40:
+                            cursor.execute("SELECT price FROM prices WHERE weight LIKE '4%'")
+                            price = cursor.fetchone()
+                        elif weight > 40 and weight < 50:
+                            cursor.execute("SELECT price FROM prices WHERE weight LIKE '5%'")
+                            price = cursor.fetchone()
+                        else:
+                            cursor.execute("SELECT price FROM prices WHERE weight LIKE '6%'")
+                            price = cursor.fetchone()
+                        for i in price:
+                            print(str(i),"is your amount to pay")
+                            
+
                 elif choose == 2:
                     package_id = input("Enter your package id which was provided : ")
                     print("This is your order details")
                     print(customer_get_package(connect, package_id))
                 elif choose == 3:
                     print("Here are all of your packages")
-                    print(customer_get_all_package)
+                    customer_get_all_package(connect, username)
                 elif choose == 4:
                     package_id = input("Enter the Package Id of the order of which details need to be changed : ")
                     package = list(customer_get_package(connect, package_id))
@@ -238,11 +292,13 @@ if user_choice == 1:
                     else:
                         break
                 elif choose == 5:
+                    show_prices(connect)
+                elif choose == 6:
                     package_id = input("Enter the Package Id of the order of which details need to be changed : ")
                     customer_delete_package(connect, package_id)
                     print('\n')
                     print("Your package delivery has been cancelled")
-                elif choose == 6:
+                elif choose == 7:
                     print("You need Log-In everytime whenever you use the settings.\nThis is order to ensure the security of the data of our customers")
                     customer = login(connect)
                     id = customer[0]
@@ -277,7 +333,7 @@ if user_choice == 1:
                         break
                     else:
                         break
-                elif choose == 7:
+                elif choose == 8:
                     print("Thank you for using our service")
                     break
                 else:
@@ -325,7 +381,7 @@ elif user_choice == 2:
                     break
 elif user_choice == 3:
     user_name = input("Enter your name : ").lower()
-    userid = input("Enter your User-ID")
+    userid = input("Enter your User-ID : ")
     courier_boy_login(connect, userid, user_name)
     while True:
         print("What do you want to access : ")
@@ -338,4 +394,5 @@ elif user_choice == 3:
         else:
             print("Logging out of the system...")
             break
-        
+
+connect.close()

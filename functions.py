@@ -23,6 +23,7 @@ def create_tables(connect):
     cursor.execute('CREATE TABLE IF NOT EXISTS customers (id varchar(80) PRIMARY KEY, username char(80), password varchar(80))')
     cursor.execute('CREATE TABLE IF NOT EXISTS company (id varchar(80) PRIMARY KEY, username varchar(80), password varchar(80))')
     cursor.execute('CREATE TABLE IF NOT EXISTS courier_boys (id varchar(80) PRIMARY KEY, username varchar(80))')
+    cursor.execute('CREATE TABLE IF NOT EXISTS prices (weight float(3,1) UNIQUE, price int)')
     connect.commit()
 
 #DONE
@@ -47,7 +48,7 @@ def customer_add_package(connect, package):
 
 #DONE
 def customer_get_package(connect, package_id):
-    cursor = connect.cursor()
+    cursor = connect.cursor(buffered=True)
     cursor.execute("SELECT * FROM packages WHERE id='{}'".format(package_id))
     return cursor.fetchone()
 
@@ -55,7 +56,7 @@ def customer_get_package(connect, package_id):
 def customer_get_all_package(connect, username):
     cursor = connect.cursor()
     cursor.execute("SELECT * FROM PACKAGES WHERE sender = '{}'".format(username))
-    return cursor.fetchall()
+    print(cursor.fetchall())
 
 #DONE
 def customer_update_package(connect, new_package):
@@ -216,11 +217,26 @@ def courier_boy_login(connect, user_id, user_name):
 def courier_boy_packages(connect, user_id):
     cursor = connect.cursor()
     cursor.execute("SELECT * FROM PACKAGES WHERE delivery_boy_id = '{}'".format(user_id))
-    print("Here is your list of orders to complete")
-    return cursor.fetchall()
+    print(cursor.fetchall())
 
 def assign_boy_to_courier(connect, package_id, courier_boy_id):
     cursor = connect.cursor()
     cursor.execute("UPDATE packages, courier_boys SET packages.delivery_boy_id = courier_boys.id WHERE packages.id = '{}' and courier_boys.id = '{}'".format(package_id, courier_boy_id))
     connect.commit()
     print(courier_boy_id,'has been assigned the order',package_id)
+
+def insert_prices(connect):
+    cursor = connect.cursor()
+    cursor.execute("INSERT INTO prices VALUES (10.0, 250)")
+    cursor.execute("INSERT INTO prices VALUES (20.0, 400)")
+    cursor.execute("INSERT INTO prices VALUES (30.0, 500)")
+    cursor.execute("INSERT INTO prices VALUES (40.0, 600)")
+    cursor.execute("INSERT INTO prices VALUES (50.0, 700)")
+    cursor.execute("INSERT INTO prices VALUES (60.0, 800)")
+    connect.commit()
+
+def show_prices(connect):
+    cursor = connect.cursor()
+    cursor.execute("SELECT * FROM prices;")
+    print("Here are all the prices of the couriers : ")
+    print(cursor.fetchall())
