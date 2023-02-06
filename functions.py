@@ -26,6 +26,12 @@ def create_tables(connect):
     cursor.execute('CREATE TABLE IF NOT EXISTS prices (weight float(3,1) UNIQUE, price int)')
     connect.commit()
 
+
+#DONE
+def company_add(connect):
+    cursor = connect.cursor()
+    cursor.execute("INSERT INTO company VALUES('AB123', 'company_head', 'hr')")
+
 #DONE
 def existing_user_id(connect, username):
     cursor = connect.cursor()

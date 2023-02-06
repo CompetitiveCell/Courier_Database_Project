@@ -3,7 +3,7 @@ from functions import *
 global connect
 connect = create_connection()
 create_tables(connect)
-#add_courier_boys_data(connect)
+add_courier_boys_data(connect)
 insert_prices(connect)
 
 order_id = ''
@@ -16,6 +16,7 @@ for i in range(2):
 print("Welcome to QUICK SHIP EXPRESS")
 user_choice = input("Press Enter to begin your Courier Journey : ")
 time.sleep(1)
+print('\n')
 print("(1) Type 1 for Customer")
 print("(2) Type 2 for Company Head")
 print("(3) Type 3 for Delivery Boy")
@@ -37,6 +38,7 @@ if user_choice == 1:
                 print(existing_user_id(connect, username), "IS YOUR USER ID")
                 print("What do you want to do? : ")
                 while True:
+                    print('\n')
                     print("(1) Add a package to be delivered")
                     print("(2) Get Details of my package")
                     print("(3) View all my packages")
@@ -45,7 +47,8 @@ if user_choice == 1:
                     print("(6) Cancel my package")
                     print("(7) Settings")
                     print("(8) Exit the Program")
-                    choose = int(input("Press from (1,2,3,4,5,6,7) to continue : "))
+                    print('\n')
+                    choose = int(input("Press from (1,2,3,4,5,6,7,8) to continue : "))
                     if choose == 1:
                         global package
                         package = []
@@ -71,6 +74,7 @@ if user_choice == 1:
                         package = tuple(package)
                         weight = float(weight)
                         customer_add_package(connect, package)
+                        cursor = connect.cursor()
                         for i in range(1):
                             if weight < 10.0:
                                 cursor.execute("SELECT price FROM prices WHERE weight LIKE '1%'")
@@ -102,11 +106,13 @@ if user_choice == 1:
                     elif choose == 4:
                         package_id = input("Enter the Package Id of the order of which details need to be changed : ")
                         package = list(customer_get_package(connect, package_id))
+                        print('\n')
                         print("(1) Change the Receiver's Name")
                         print("(2) Change the address to be delivered")
                         print("(3) Change the weight of the package")
                         print("(4) Change the date of the package to be sent")
-                        user_choice = int(input("Enter what do you change (1,2,3)? : "))
+                        print('\n')
+                        user_choice = int(input("Enter what do you change (1,2,3,4)? : "))
                         package = list(package)
                         if user_choice == 1:
                             receipient = input("Please add new receiver's name : ")
@@ -144,11 +150,13 @@ if user_choice == 1:
                         username = customer[1]
                         password = customer[2]
                         print(customer)
+                        print('\n')
                         print("(1) View my data")
                         print("(2) View my User ID")
                         print("(3) Generate me a new User ID")
-                        print("(3) Change my password")
-                        print("(4) Delete my account")
+                        print("(4) Change my password")
+                        print("(5) Delete my account")
+                        print('\n')
                         user_choice = int(input("What do you want to do(1,2,3) : "))
                         if user_choice == 1:
                             customer_id = input("Enter your Customer-ID : ")
@@ -160,7 +168,7 @@ if user_choice == 1:
                             a = new_user_id()
                             update_user_id(connect, a, ask)
                             print(a,"is your new User-ID")
-                            print("Your new User Id has been gener")
+                            print("Your new User Id has been generated")
                         elif user_choice == 4:
                             new_password = input("Enter your new password : ")
                             update_customer(connect, new_password, username)
@@ -194,6 +202,7 @@ if user_choice == 1:
             print(existing_user_id(connect, username), "IS YOUR USER ID")
             print("What do you want to do? : ")
             while True:
+                print('\n')
                 print("(1) Add a package to be delivered")
                 print("(2) Get Details of my package")
                 print("(3) View all my packages")
@@ -202,7 +211,8 @@ if user_choice == 1:
                 print("(6) Cancel my package")
                 print("(7) Settings")
                 print("(8) Exit the Program")
-                choose = int(input("Press from (1,2,3,4,5,6) to continue : "))
+                print('\n')
+                choose = int(input("Press from (1,2,3,4,5,6,7,8) to continue : "))
                 if choose == 1:
                     cursor = connect.cursor()
                     package = []
@@ -263,10 +273,12 @@ if user_choice == 1:
                 elif choose == 4:
                     package_id = input("Enter the Package Id of the order of which details need to be changed : ")
                     package = list(customer_get_package(connect, package_id))
+                    print('\n')
                     print("(1) Change the Receiver's Name")
                     print("(2) Change the address to be delivered")
                     print("(3) Change the weight of the package")
                     print("(4) Change the date of the package to be sent")
+                    print('\n')
                     user_choice = int(input("Enter what do you change (1,2,3)? : "))
                     package = list(package)
                     if user_choice == 1:
@@ -305,11 +317,13 @@ if user_choice == 1:
                     username = customer[1]
                     password = customer[2]
                     print(customer)
+                    print('\n')
                     print("(1) View my data")
                     print("(2) View my User ID")
                     print("(3) Generate me a new User ID")
                     print("(3) Change my password")
                     print("(4) Delete my account")
+                    print('\n')
                     user_choice = int(input("What do you want to do(1,2,3) : "))
                     if user_choice == 1:
                         customer_id = input("Enter your Customer-ID : ")
@@ -352,6 +366,7 @@ elif user_choice == 2:
             if select == "none":
                 break
             else:
+                print('\n')
                 print("(1) View all current orders which are not delivered yet")
                 print("(2) Display all delivery ID's")
                 print("(3) Update the status of a specific delivery")
@@ -359,7 +374,8 @@ elif user_choice == 2:
                 print("(5) Assign delivery to delivery boys")
                 print("(6) Delete all deliveries who are delivered")
                 print("(7) Exit the system")
-                user_choice = int(input("Enter your choice (1,2,3,4,5,6) : "))
+                print('\n')
+                user_choice = int(input("Enter your choice (1,2,3,4,5,6,7) : "))
                 if user_choice == 1:
                     print(display_all_data(connect))
                 elif user_choice == 2:
@@ -384,9 +400,11 @@ elif user_choice == 3:
     userid = input("Enter your User-ID : ")
     courier_boy_login(connect, userid, user_name)
     while True:
+        print('\n')
         print("What do you want to access : ")
         print("(1) To view orders assigned to you")
         print("(2) Exit the program")
+        print('\n')
         choose = int(input("Enter your choice : "))
         if choose == 1:
             print("Here is your list of packages to complete")
