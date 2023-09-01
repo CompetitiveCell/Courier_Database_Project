@@ -1,10 +1,8 @@
 # Courier_Database_Project
-<<<<<<< HEAD
+ HEAD
 # PLEASE READ THE README FILE IN THE REPOSITORY.
 # IT'S IMPORTANT
-=======
 ## PLEASE READ THE README FILE IN THE REPOSITORY.
->>>>>>> cff1b2b5ece1eeeddb83d9d91e05fcceb4776010
 
 ### For the customer side, please use the program in order:
 
